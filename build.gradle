@@ -1,0 +1,52 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    /* spring-boot */
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.4.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mustache', version: '2.3.8.RELEASE'
+    /* spring-session */
+    implementation 'org.springframework.session:spring-session-core'
+    /* spring-data */
+    implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '2.4.3'
+    /* db/sql */
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
+    /* dev-tools */
+    compileOnly 'org.projectlombok:lombok'
+    implementation group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+    /* annotationProcessor */
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    /* test */
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation group: 'de.mklinger.micro', name: 'lists', version: '1.0'
+}
+
+test {
+    useJUnitPlatform()
+}

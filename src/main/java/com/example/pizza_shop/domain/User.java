@@ -1,6 +1,5 @@
 package com.example.pizza_shop.domain;
 
-import com.example.pizza_shop.domain.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +12,7 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userID;
     private String password;
@@ -22,7 +22,7 @@ public class User implements UserDetails {
     private Boolean active;
 
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "userRole", joinColumns = @JoinColumn(name = "userID"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
 

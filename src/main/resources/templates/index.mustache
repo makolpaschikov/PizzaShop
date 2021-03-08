@@ -10,5 +10,13 @@
     <hr>
     <h4>Signup</h4>
     <a href="/signup">link</a>
+    <hr>
+    <h4>Messages</h4>
+    <a href="/messages">link</a>
+    <hr><br>
+    <form method="post" action="logout">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">LogIn</button>
+    </form>
 </body>
 </html>

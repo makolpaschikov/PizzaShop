@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<h4>Login</h4>
+    <form method="post" action="login">
+        <label>
+            <input type="text" placeholder="Email" name="username">
+            <input type="password" placeholder="Password" name="password">
+        </label>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">LogIn</button>
+    </form>
 </body>
 </html>

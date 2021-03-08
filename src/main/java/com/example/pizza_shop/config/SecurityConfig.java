@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                     .mvcMatchers("/", "signup").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                    .formLogin().loginPage("/login").permitAll()
+                    .formLogin().loginPage("/login").defaultSuccessUrl("/router").permitAll()
                 .and()
                     .logout().logoutSuccessUrl("/").permitAll();
     }

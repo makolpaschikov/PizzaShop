@@ -38,7 +38,7 @@ public class SignupController {
             user.setActive(true);
             user.setRoles(Collections.singleton(UserRole.USER));
             userDAO.save(user);
-            return new RedirectView("login");
+            return new RedirectView("/login");
         }
     }
 }

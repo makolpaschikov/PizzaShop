@@ -9,41 +9,42 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
 
 @Controller
 @RequestMapping("/")
-public class IndexController {
+public class MessageController {
     private final MessageDAO messageDAO;
 
     @Autowired
-    public IndexController(MessageDAO messageDAO) {
+    public MessageController(MessageDAO messageDAO) {
         this.messageDAO = messageDAO;
     }
 
     @GetMapping
     public Object getPage(Map<String,Object> model) {
         model.put("messages", messageDAO.findAll());
-        return new ModelAndView("index", model);
+        return new ModelAndView("message", model);
     }
 
     @PostMapping("add_msg")
-    public String addMsg(@RequestParam String msg) {
+    public RedirectView addMsg(@RequestParam String msg) {
         messageDAO.save(new Message(msg));
-        return "redirect:/";
+        return new RedirectView("/");
     }
 
     @PostMapping("delete_msg")
-    public String deleteMsg(@RequestParam Long id) {
+    public RedirectView deleteMsg(@RequestParam Long id) {
         messageDAO.deleteById(id);
-        return "redirect:/";
+        return new RedirectView("/");
     }
 
     @PostMapping("delete_all")
-    public String deleteAll() {
+    public RedirectView deleteAll() {
         messageDAO.deleteAll();
-        return "redirect:/";
+        return new RedirectView("/");
     }
 }
 

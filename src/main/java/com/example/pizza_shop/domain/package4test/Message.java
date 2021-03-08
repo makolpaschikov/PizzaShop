@@ -1,4 +1,4 @@
-package com.example.pizza_shop.domain;
+package com.example.pizza_shop.domain.package4test;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

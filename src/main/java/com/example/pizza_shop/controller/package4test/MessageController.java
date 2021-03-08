@@ -1,6 +1,6 @@
-package com.example.pizza_shop.controller;
+package com.example.pizza_shop.controller.package4test;
 
-import com.example.pizza_shop.domain.Message;
+import com.example.pizza_shop.domain.package4test.Message;
 import com.example.pizza_shop.repository.MessageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/messages")
 public class MessageController {
     private final MessageDAO messageDAO;
 

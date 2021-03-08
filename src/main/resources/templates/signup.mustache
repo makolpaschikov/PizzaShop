@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="signup">
+        <label>
+            <input type="text" placeholder="Name" name="name">
+            <input type="text" placeholder="Surname" name="surname">
+            <input type="email" placeholder="Email" name="email">
+            <input type="password" placeholder="Password" name="password">
+        </label>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">SignUp</button>
+    </form>
+    <div class="error">
+        {{#error_msg}}
+            {{error_msg}}
+        {{/error_msg}}
+    </div>
+</body>
+</html>

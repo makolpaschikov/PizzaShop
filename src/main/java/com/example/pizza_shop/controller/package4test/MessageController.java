@@ -1,6 +1,6 @@
-package com.example.pizza_shop.controller;
+package com.example.pizza_shop.controller.package4test;
 
-import com.example.pizza_shop.domain.Message;
+import com.example.pizza_shop.domain.package4test.Message;
 import com.example.pizza_shop.repository.MessageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/messages")
 public class MessageController {
     private final MessageDAO messageDAO;
 
@@ -32,19 +32,19 @@ public class MessageController {
     @PostMapping("add_msg")
     public RedirectView addMsg(@RequestParam String msg) {
         messageDAO.save(new Message(msg));
-        return new RedirectView("/");
+        return new RedirectView("/messages");
     }
 
     @PostMapping("delete_msg")
     public RedirectView deleteMsg(@RequestParam Long id) {
         messageDAO.deleteById(id);
-        return new RedirectView("/");
+        return new RedirectView("/messages");
     }
 
     @PostMapping("delete_all")
     public RedirectView deleteAll() {
         messageDAO.deleteAll();
-        return new RedirectView("/");
+        return new RedirectView("/messages");
     }
 }
 

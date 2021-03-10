@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Map;
 
 @Controller
-@RequestMapping("shop")
+@RequestMapping("/shop")
 public class ShopController {
     @GetMapping
     public Object getPage(Map<String,Object> model) {

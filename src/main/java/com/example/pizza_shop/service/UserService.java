@@ -18,6 +18,6 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDAO.findByEmail(username);
+        return userDAO.findByUsername(username);
     }
 }

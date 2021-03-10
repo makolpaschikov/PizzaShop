@@ -29,19 +29,19 @@ public class MessageController {
         return new ModelAndView("message", model);
     }
 
-    @PostMapping("add_msg")
+    @PostMapping("/add_msg")
     public RedirectView addMsg(@RequestParam String msg) {
         messageDAO.save(new Message(msg));
         return new RedirectView("/messages");
     }
 
-    @PostMapping("delete_msg")
+    @PostMapping("/delete_msg")
     public RedirectView deleteMsg(@RequestParam Long id) {
         messageDAO.deleteById(id);
         return new RedirectView("/messages");
     }
 
-    @PostMapping("delete_all")
+    @PostMapping("/delete_all")
     public RedirectView deleteAll() {
         messageDAO.deleteAll();
         return new RedirectView("/messages");

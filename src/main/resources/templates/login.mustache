@@ -5,9 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post" action="login">
+    <form method="post" action="/login">
         <label>
-            <input type="text" placeholder="Email" name="username">
+            <input type="text" placeholder="Username" name="username">
             <input type="password" placeholder="Password" name="password">
         </label>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">

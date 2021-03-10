@@ -5,7 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-    <h4>Admin panel</h4>
-    <a href="/admin_panel/users">Users list</a>
+    <h4>Users</h4>
+    <div>
+        {{#users_list}}
+            {{name}}
+        {{/users_list}}
+    </div>
 </body>
 </html>

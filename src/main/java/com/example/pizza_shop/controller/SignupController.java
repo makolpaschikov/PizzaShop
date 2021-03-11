@@ -2,7 +2,7 @@ package com.example.pizza_shop.controller;
 
 import com.example.pizza_shop.domain.User;
 import com.example.pizza_shop.domain.UserRole;
-import com.example.pizza_shop.repository.UserDAO;
+import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,12 +18,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("/signup")
 public class SignupController {
-    private final UserDAO userDAO;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SignupController(UserDAO userDAO, PasswordEncoder passwordEncoder) {
-        this.userDAO = userDAO;
+    public SignupController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -44,14 +44,14 @@ public class SignupController {
 
     @PostMapping
     public Object signup(User user, Map<String, Object> model) {
-        if (userDAO.findByUsername(user.getUsername()) != null) {
+        if (userService.getByUsername(user.getUsername()) != null) {
             model.put("error_msg", "User with this username is already registered");
             return new ModelAndView("signup", model);
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setActive(true);
             user.setRoles(Collections.singleton(UserRole.USER));
-            userDAO.save(user);
+            userService.addUser(user);
             return new RedirectView("/login");
         }
     }

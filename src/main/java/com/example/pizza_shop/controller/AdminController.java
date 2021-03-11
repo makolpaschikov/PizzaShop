@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
 
@@ -28,14 +31,14 @@ public class AdminController {
 
     @GetMapping("/users")
     public Object getUsers(Map<String, Object> model) {
-        model.put("users_list", userService.getOnlyUsers());
+        model.put("users_list", userService.getUsers());
         return new ModelAndView("user_list", model);
     }
 
-    @GetMapping("/admins")
-    public Object getAdmins(Map<String, Object> model) {
-        model.put("users_list", userService.getOnlyAdmins());
-        return new ModelAndView("user_list", model);
+    @PostMapping("/users/delete_user")
+    public Object deleteUser(@RequestParam Long userID) {
+        userService.deleteUser(userID);
+        return new RedirectView("/admin_panel/users");
     }
 
 }

@@ -10,6 +10,7 @@ public class Product {
     private Long productID;
     private String name;
     private Double cost;
+    private String composition;
 
     @CollectionTable(name = "product_type", joinColumns = @JoinColumn(name = "product_id"))
     @Enumerated(EnumType.STRING)
@@ -54,5 +55,13 @@ public class Product {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    public String getComposition() {
+        return composition;
+    }
+
+    public void setComposition(String composition) {
+        this.composition = composition;
     }
 }

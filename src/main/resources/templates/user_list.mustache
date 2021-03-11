@@ -9,6 +9,12 @@
     <div>
         {{#users_list}}
             {{username}} <br>
+            <form action="/admin_panel/users/delete_user" method="post">
+                <input type="hidden" name="userID" value="{{userID}}">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+                <button type="submit">Delete</button>
+            </form>
+            <hr><br>
         {{/users_list}}
     </div>
 </body>

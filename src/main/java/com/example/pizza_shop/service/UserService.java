@@ -56,4 +56,9 @@ public class UserService implements UserDetailsService {
     public void deleteUser(User user) {
         userDAO.delete(user);
     }
+
+    public void deleteUser(Long id) {
+        userDAO.deleteById(id);
+    }
+
 }

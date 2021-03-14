@@ -8,10 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -27,10 +26,16 @@ public class UserService implements UserDetailsService {
         return userDAO.findByUsername(username);
     }
 
+    //======================
+    // ADD
+    //======================
     public void addUser(User user) {
         userDAO.save(user);
     }
 
+    //======================
+    // GET
+    //======================
     public List<User> getUsers() {
         return (List<User>) userDAO.findAll();
     }
@@ -49,6 +54,9 @@ public class UserService implements UserDetailsService {
         return userDAO.findByUsername(username);
     }
 
+    //======================
+    // DELETE
+    //======================
     public void deleteUsers() {
         userDAO.deleteAll();
     }
@@ -61,4 +69,45 @@ public class UserService implements UserDetailsService {
         userDAO.deleteById(id);
     }
 
+    //======================
+    // UPDATE
+    //======================
+    public String updateUsername(User user, String username) {
+        if (!user.getUsername().equals(username)) {
+            if (!usernameIsAvailable(username)) {
+                return "This username is taken!";
+            } else {
+                user.setUsername(username);
+                userDAO.save(user);
+                return null;
+            }
+        } else {
+            return "The usernames are the same!";
+        }
+    }
+
+    public String updateEmail(User user, String email) {
+        if (!user.getEmail().equals(email)) {
+            if (!emailIsAvailable(email)) {
+                return "This email is taken!";
+            } else {
+                user.setEmail(email);
+                userDAO.save(user);
+                return null;
+            }
+        } else {
+            return "The emails are the same!";
+        }
+    }
+
+    //======================
+    // AVAILABLE
+    //======================
+    public boolean usernameIsAvailable(String username) {
+        return userDAO.findByUsername(username) == null;
+    }
+
+    public boolean emailIsAvailable(String email) {
+        return userDAO.findByEmail(email) == null;
+    }
 }

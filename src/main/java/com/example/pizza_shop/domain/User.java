@@ -1,5 +1,6 @@
 package com.example.pizza_shop.domain;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usr")
+@DynamicUpdate
 public class User implements UserDetails {
 
     @Id

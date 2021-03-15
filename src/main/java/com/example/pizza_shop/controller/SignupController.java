@@ -38,7 +38,7 @@ public class SignupController {
         u.setEmail("busines-nocheesepizza@gmail.com");
         u.setActive(true);
         u.setRoles(r);
-        userDAO.save(u);*/
+        userService.addUser(u);*/
         return new ModelAndView("signup");
     }
 

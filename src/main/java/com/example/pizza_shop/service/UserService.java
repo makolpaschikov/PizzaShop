@@ -59,8 +59,9 @@ public class UserService implements UserDetailsService {
     //======================
     // DELETE
     //======================
-    public void deleteUser(Long id) {
-        userDAO.deleteById(id);
+    public void deleteUser(User user) {
+      //  userDAO.deleteSessionByUsername(user.getUsername());
+        userDAO.deleteById(user.getUserID());
     }
 
     //======================
@@ -110,6 +111,11 @@ public class UserService implements UserDetailsService {
         } else {
             return "The previous password was entered incorrectly!";
         }
+    }
+
+    public void updateActive(User user, boolean active) {
+        user.setActive(active);
+        userDAO.save(user);
     }
 
     //======================

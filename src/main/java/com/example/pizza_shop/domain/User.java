@@ -112,7 +112,7 @@ public class User implements UserDetails {
     public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

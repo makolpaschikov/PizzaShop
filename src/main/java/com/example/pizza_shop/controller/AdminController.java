@@ -1,5 +1,6 @@
 package com.example.pizza_shop.controller;
 
+import com.example.pizza_shop.domain.User;
 import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,8 +37,8 @@ public class AdminController {
     }
 
     @PostMapping("/users/delete_user")
-    public Object deleteUser(@RequestParam Long userID) {
-        userService.deleteUser(userID);
+    public Object deleteUser(User user) {
+        userService.deleteUser(user);
         return new RedirectView("/admin_panel/users");
     }
 

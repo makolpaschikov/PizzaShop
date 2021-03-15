@@ -7,18 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserDAO userDAO) {
+    public UserService(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -57,14 +59,6 @@ public class UserService implements UserDetailsService {
     //======================
     // DELETE
     //======================
-    public void deleteUsers() {
-        userDAO.deleteAll();
-    }
-
-    public void deleteUser(User user) {
-        userDAO.delete(user);
-    }
-
     public void deleteUser(Long id) {
         userDAO.deleteById(id);
     }
@@ -97,6 +91,24 @@ public class UserService implements UserDetailsService {
             }
         } else {
             return "The emails are the same!";
+        }
+    }
+
+    public String updatePassword(User user, String oldPassword, String newPassword, String repeatedNewPassword) {
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            if (!newPassword.equals(repeatedNewPassword)) {
+                return "Password mismatch!";
+            } else {
+                if (passwordEncoder.matches(newPassword, user.getPassword())) {
+                    return "The old and new passwords are the same!";
+                } else {
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                    userDAO.save(user);
+                    return null;
+                }
+            }
+        } else {
+            return "The previous password was entered incorrectly!";
         }
     }
 

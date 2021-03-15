@@ -29,16 +29,22 @@
         {{/email_error}}
     </form> <br>
     <!--PASSWORD-->
-    <form method="post" action="/account_update">
+    <form method="post" action="/account_update/update_password">
         <label>
             <input type="password" placeholder="Old password" name="oldPassword"><br>
             <input type="password" placeholder="New password" name="newPassword"><br>
+            <input type="password" placeholder="c new password" name="repeatedNewPassword"><br>
         </label>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <button type="submit">Update</button>
         {{#password_error}}
             {{password_error}}
         {{/password_error}}
+    </form>
+    <!--DELETE-->
+    <form method="post" action="/account_update/delete">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Delete account</button>
     </form>
 </body>
 </html>

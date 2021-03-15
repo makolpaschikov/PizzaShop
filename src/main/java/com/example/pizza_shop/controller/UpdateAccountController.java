@@ -56,6 +56,27 @@ public class UpdateAccountController {
                 : new ModelAndView("update_account", formInitialization(user, model));
     }
 
+    @PostMapping("/update_password")
+    private Object updatePassword(
+            @AuthenticationPrincipal User user,
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword,
+            @RequestParam String repeatedNewPassword,
+            Map<String, Object> model
+    ) {
+        String feedback = userService.updatePassword(user, oldPassword, newPassword, repeatedNewPassword);
+        model.put("password_error", feedback);
+        return feedback == null
+                ? new RedirectView("/account_update")
+                : new ModelAndView("update_account", formInitialization(user, model));
+    }
+
+    @PostMapping("/delete")
+    public Object deleteUser(@AuthenticationPrincipal User user) {
+        userService.deleteUser(user.getUserID());
+        return new RedirectView("/signup");
+    }
+
     private Map<String, Object> formInitialization(User user, Map<String, Object> model) {
         model.put("username", user.getUsername());
         model.put("email", user.getEmail());

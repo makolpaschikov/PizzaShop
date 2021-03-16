@@ -4,14 +4,11 @@ import com.example.pizza_shop.domain.User;
 import com.example.pizza_shop.domain.UserRole;
 import com.example.pizza_shop.repository.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.List;
 
@@ -19,17 +16,11 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
-    private final SessionRegistry sessionRegistry;
 
     @Autowired
-    public UserService(
-            UserDAO userDAO,
-            PasswordEncoder passwordEncoder,
-            SessionRegistry sessionRegistry
-            ) {
+    public UserService(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
-        this.sessionRegistry = sessionRegistry;
     }
 
     @Override
@@ -70,7 +61,6 @@ public class UserService implements UserDetailsService {
     //======================
     public void deleteUser(User user) {
         userDAO.deleteById(user.getUserID());
-        closeSession();
     }
 
     //======================
@@ -83,7 +73,6 @@ public class UserService implements UserDetailsService {
             } else {
                 user.setUsername(username);
                 userDAO.save(user);
-                closeSession();
                 return null;
             }
         } else {
@@ -98,7 +87,6 @@ public class UserService implements UserDetailsService {
             } else {
                 user.setEmail(email);
                 userDAO.save(user);
-                closeSession();
                 return null;
             }
         } else {
@@ -116,18 +104,12 @@ public class UserService implements UserDetailsService {
                 } else {
                     user.setPassword(passwordEncoder.encode(newPassword));
                     userDAO.save(user);
-                    closeSession();
                     return null;
                 }
             }
         } else {
             return "The previous password was entered incorrectly!";
         }
-    }
-
-    public void updateActive(User user, boolean active) {
-        user.setActive(active);
-        userDAO.save(user);
     }
 
     //======================
@@ -141,15 +123,4 @@ public class UserService implements UserDetailsService {
         return userDAO.findByEmail(email) == null;
     }
 
-    //======================
-    // SESSION
-    //======================
-    private void closeSession() {
-        String sessionID = RequestContextHolder.currentRequestAttributes().getSessionId();
-        SessionInformation currentSession = sessionRegistry.getSessionInformation(sessionID);
-        List<SessionInformation> sessions = sessionRegistry.getAllSessions(currentSession.getPrincipal(), true);
-        for (SessionInformation session : sessions) {
-            session.expireNow();
-        }
-    }
 }

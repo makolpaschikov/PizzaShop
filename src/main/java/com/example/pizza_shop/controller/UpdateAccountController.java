@@ -1,6 +1,7 @@
 package com.example.pizza_shop.controller;
 
 import com.example.pizza_shop.domain.User;
+import com.example.pizza_shop.service.SessionService;
 import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,20 +10,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/account_update")
 public class UpdateAccountController {
     private final UserService userService;
+    private final SessionService sessionService;
 
     @Autowired
-    public UpdateAccountController(UserService userService) {
+    public UpdateAccountController(UserService userService, SessionService sessionService) {
         this.userService = userService;
+        this.sessionService = sessionService;
     }
 
     @GetMapping
@@ -38,6 +41,7 @@ public class UpdateAccountController {
             Map<String, Object> model
             ) {
         String feedback = userService.updateUsername(user, username);
+        sessionService.updateSession(RequestContextHolder.currentRequestAttributes().getSessionId(), user);
         model.put("usrname_error", feedback);
         return feedback == null
                 ? new RedirectView("/account_update")
@@ -51,6 +55,7 @@ public class UpdateAccountController {
             Map<String, Object> model
     ) {
         String feedback = userService.updateEmail(user, email);
+        sessionService.updateSession(RequestContextHolder.currentRequestAttributes().getSessionId(), user);
         model.put("email_error", feedback);
         return feedback == null
                 ? new RedirectView("/account_update")
@@ -66,6 +71,7 @@ public class UpdateAccountController {
             Map<String, Object> model
     ) {
         String feedback = userService.updatePassword(user, oldPassword, newPassword, repeatedNewPassword);
+        sessionService.updateSession(RequestContextHolder.currentRequestAttributes().getSessionId(), user);
         model.put("password_error", feedback);
         return feedback == null
                 ? new RedirectView("/account_update")
@@ -75,6 +81,7 @@ public class UpdateAccountController {
     @PostMapping("/delete")
     public Object deleteUser(@AuthenticationPrincipal User user) {
         userService.deleteUser(user);
+        sessionService.closeSession(RequestContextHolder.currentRequestAttributes().getSessionId());
         return new RedirectView("/");
     }
 

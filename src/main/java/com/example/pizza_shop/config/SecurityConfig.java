@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .and()
                     .sessionManagement()
                     .maximumSessions(1)
-                    .expiredUrl("/login")
+                    .expiredUrl("/")
                     .maxSessionsPreventsLogin(true)
                     .sessionRegistry(sessionRegistry);
     }

@@ -4,18 +4,15 @@ import com.example.pizza_shop.domain.User;
 import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -76,9 +73,7 @@ public class UpdateAccountController {
     }
 
     @PostMapping("/delete")
-    public Object deleteUser(@AuthenticationPrincipal User user, WebRequest request, SessionStatus sessionStatus) {
-        sessionStatus.setComplete();
-        request.removeAttribute("user", WebRequest.SCOPE_SESSION);
+    public Object deleteUser(@AuthenticationPrincipal User user) {
         userService.deleteUser(user);
         return new RedirectView("/");
     }

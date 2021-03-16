@@ -8,7 +8,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.session.SessionRepository;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,11 +20,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final SessionRegistry sessionRegistry;
 
     @Autowired
-    public SecurityConfig(UserService userService, PasswordEncoder passwordEncoder) {
+    public SecurityConfig(UserService userService, PasswordEncoder passwordEncoder, SessionRegistry sessionRegistry) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.sessionRegistry = sessionRegistry;
     }
 
     @Override
@@ -52,6 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .and()
                     .rememberMe()
                 .and()
-                    .logout().logoutSuccessUrl("/").permitAll();
+                    .logout().logoutSuccessUrl("/").permitAll()
+                .and()
+                    .sessionManagement()
+                    .maximumSessions(1)
+                    .expiredUrl("/login")
+                    .maxSessionsPreventsLogin(true)
+                    .sessionRegistry(sessionRegistry);
     }
 }

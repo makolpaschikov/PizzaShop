@@ -2,7 +2,7 @@
 Client-server application for a fictional pizzeria
 
 1. Client: 
- * html
+   * html
    * css
    * javascript
 2. Server  

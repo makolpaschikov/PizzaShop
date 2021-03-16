@@ -2,9 +2,9 @@
 Client-server application for a fictional pizzeria
 
 1. Client: 
-  * html
-  * css
-  * javascript
+ * html
+   * css
+   * javascript
 2. Server  
   * spring framework
    * spring-boot

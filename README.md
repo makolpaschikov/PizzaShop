@@ -1,11 +1,11 @@
 # Pizzeria "No-cheese pizza"
 Client-server application for a fictional pizzeria
 
-Client: 
+1. Client: 
 * html
 * css
 * javascript
-Server  
+2. Server  
 * spring framework
    * spring-boot
    * spring-session

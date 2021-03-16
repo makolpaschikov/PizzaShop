@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h4>Update account info</h4>
+    <!--USERNAME-->
+    <form method="post" action="/account_update/update_username">
+        <label>
+            <input type="text" placeholder="Username" name="username" value="{{username}}">
+        </label>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Update</button>
+        {{#usrname_error}}
+            {{usrname_error}}
+        {{/usrname_error}}
+    </form> <br>
+    <!--EMAIL-->
+    <form method="post" action="/account_update/update_email">
+        <label>
+            <input type="email" placeholder="Email" name="email" value="{{email}}">
+        </label>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Update</button>
+        {{#email_error}}
+            {{email_error}}
+        {{/email_error}}
+    </form> <br>
+    <!--PASSWORD-->
+    <form method="post" action="/account_update/update_password">
+        <label>
+            <input type="password" placeholder="Old password" name="oldPassword"><br>
+            <input type="password" placeholder="New password" name="newPassword"><br>
+            <input type="password" placeholder="c new password" name="repeatedNewPassword"><br>
+        </label>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Update</button>
+        {{#password_error}}
+            {{password_error}}
+        {{/password_error}}
+    </form>
+    <!--DELETE-->
+    <form method="post" action="/account_update/delete">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Delete account</button>
+    </form>
+</body>
+</html>

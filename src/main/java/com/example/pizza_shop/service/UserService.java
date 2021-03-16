@@ -7,19 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserDAO userDAO) {
+    public UserService(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -27,10 +28,16 @@ public class UserService implements UserDetailsService {
         return userDAO.findByUsername(username);
     }
 
+    //======================
+    // ADD
+    //======================
     public void addUser(User user) {
         userDAO.save(user);
     }
 
+    //======================
+    // GET
+    //======================
     public List<User> getUsers() {
         return (List<User>) userDAO.findAll();
     }
@@ -49,16 +56,71 @@ public class UserService implements UserDetailsService {
         return userDAO.findByUsername(username);
     }
 
-    public void deleteUsers() {
-        userDAO.deleteAll();
-    }
-
+    //======================
+    // DELETE
+    //======================
     public void deleteUser(User user) {
-        userDAO.delete(user);
+        userDAO.deleteById(user.getUserID());
     }
 
-    public void deleteUser(Long id) {
-        userDAO.deleteById(id);
+    //======================
+    // UPDATE
+    //======================
+    public String updateUsername(User user, String username) {
+        if (!user.getUsername().equals(username)) {
+            if (!usernameIsAvailable(username)) {
+                return "This username is taken!";
+            } else {
+                user.setUsername(username);
+                userDAO.save(user);
+                return null;
+            }
+        } else {
+            return "The usernames are the same!";
+        }
+    }
+
+    public String updateEmail(User user, String email) {
+        if (!user.getEmail().equals(email)) {
+            if (!emailIsAvailable(email)) {
+                return "This email is taken!";
+            } else {
+                user.setEmail(email);
+                userDAO.save(user);
+                return null;
+            }
+        } else {
+            return "The emails are the same!";
+        }
+    }
+
+    public String updatePassword(User user, String oldPassword, String newPassword, String repeatedNewPassword) {
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            if (!newPassword.equals(repeatedNewPassword)) {
+                return "Password mismatch!";
+            } else {
+                if (passwordEncoder.matches(newPassword, user.getPassword())) {
+                    return "The old and new passwords are the same!";
+                } else {
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                    userDAO.save(user);
+                    return null;
+                }
+            }
+        } else {
+            return "The previous password was entered incorrectly!";
+        }
+    }
+
+    //======================
+    // AVAILABLE
+    //======================
+    public boolean usernameIsAvailable(String username) {
+        return userDAO.findByUsername(username) == null;
+    }
+
+    public boolean emailIsAvailable(String email) {
+        return userDAO.findByEmail(email) == null;
     }
 
 }

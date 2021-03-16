@@ -6,12 +6,12 @@ Client-server application for a fictional pizzeria
    * css
    * javascript
 2. Server  
-  * spring framework
+ * spring framework
    * spring-boot
    * spring-session
    * spring-security
    * spring-validation
-  * database
+ * database
    * postgresql
    * jdbc
    * hibernate

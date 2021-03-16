@@ -1,11 +1,11 @@
 # Pizzeria "No-cheese pizza"
 Client-server application for a fictional pizzeria
 
-1. Clinet: 
+Client: 
     * html
     * css
     * javascript
-2. Server  
+Server  
     * spring framework
       * spring-boot
       * spring-session

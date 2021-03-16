@@ -41,7 +41,7 @@ public class UpdateAccountController {
             Map<String, Object> model
             ) {
         String feedback = userService.updateUsername(user, username);
-        sessionService.updateSession(RequestContextHolder.currentRequestAttributes().getSessionId(), user);
+        sessionService.updateSession(user);
         model.put("usrname_error", feedback);
         return feedback == null
                 ? new RedirectView("/account_update")
@@ -55,7 +55,7 @@ public class UpdateAccountController {
             Map<String, Object> model
     ) {
         String feedback = userService.updateEmail(user, email);
-        sessionService.updateSession(RequestContextHolder.currentRequestAttributes().getSessionId(), user);
+        sessionService.updateSession(user);
         model.put("email_error", feedback);
         return feedback == null
                 ? new RedirectView("/account_update")
@@ -71,7 +71,7 @@ public class UpdateAccountController {
             Map<String, Object> model
     ) {
         String feedback = userService.updatePassword(user, oldPassword, newPassword, repeatedNewPassword);
-        sessionService.updateSession(RequestContextHolder.currentRequestAttributes().getSessionId(), user);
+        sessionService.updateSession(user);
         model.put("password_error", feedback);
         return feedback == null
                 ? new RedirectView("/account_update")
@@ -81,7 +81,7 @@ public class UpdateAccountController {
     @PostMapping("/delete")
     public Object deleteUser(@AuthenticationPrincipal User user) {
         userService.deleteUser(user);
-        sessionService.closeSession(RequestContextHolder.currentRequestAttributes().getSessionId());
+        sessionService.closeSession(user);
         return new RedirectView("/");
     }
 

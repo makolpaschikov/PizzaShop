@@ -22,15 +22,18 @@ public class SessionService {
         this.sessionRegistry = sessionRegistry;
     }
 
-    public void updateSession(String sessionID, User user) {
+    public void updateSession(User user) {
         Authentication newAuth = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         RequestContextHolder.currentRequestAttributes().setAttribute("SPRING_SECURITY_CONTEXT", newAuth, RequestAttributes.SCOPE_SESSION);
     }
 
     public void closeSession(String sessionID) {
-        SessionInformation currentSession = sessionRegistry.getSessionInformation(sessionID);
-        List<SessionInformation> sessions = sessionRegistry.getAllSessions(currentSession.getPrincipal(), true);
+        sessionRegistry.getSessionInformation(sessionID).expireNow();
+    }
+
+    public void closeSession(User user) {
+        List<SessionInformation> sessions = sessionRegistry.getAllSessions(user, true);
         for (SessionInformation session : sessions) {
             session.expireNow();
         }

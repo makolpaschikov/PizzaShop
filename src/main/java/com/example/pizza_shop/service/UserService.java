@@ -9,8 +9,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -31,8 +35,16 @@ public class UserService implements UserDetailsService {
     //======================
     // ADD
     //======================
-    public void addUser(User user) {
-        userDAO.save(user);
+    public String addUser(User user, Set<UserRole> roles) {
+        if (userDAO.findByUsername(user.getUsername()) != null) {
+            return "User with this username is already registered";
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setActive(true);
+            user.setRoles(roles);
+            userDAO.save(user);
+            return null;
+        }
     }
 
     //======================

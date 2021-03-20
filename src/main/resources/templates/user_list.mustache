@@ -5,9 +5,25 @@
     <title>Title</title>
 </head>
 <body>
-    <h4>Users</h4>
+    <h4>Admins:</h4>
     <div>
-        {{#users_list}}
+        <form action="/admin_panel/add_admin" method="post">
+            <label>
+                <input type="text" placeholder="Username" name="username"><br>
+                <input type="email" placeholder="Email" name="email"><br>
+                <input type="password" placeholder="Password" name="password"><br>
+            </label>
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Add admin</button><br>
+            {{#error}}
+                {{error}}
+            {{/error}}
+        </form>
+    </div>
+    <hr>
+    <h4>Admins:</h4>
+    <div>
+        {{#admin_list}}
             {{username}} <br>
             <form action="/admin_panel/users/delete_user" method="post">
                 <input type="hidden" name="userID" value="{{userID}}">
@@ -16,7 +32,21 @@
                 <button type="submit">Delete</button>
             </form>
             <hr><br>
-        {{/users_list}}
+        {{/admin_list}}
+    </div>
+
+    <h4>Users:</h4>
+    <div>
+        {{#user_list}}
+            {{username}} <br>
+            <form action="/admin_panel/users/delete_user" method="post">
+                <input type="hidden" name="userID" value="{{userID}}">
+                <input type="hidden" name="username" value="{{username}}">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+                <button type="submit">Delete</button>
+            </form>
+            <hr><br>
+        {{/user_list}}
     </div>
 </body>
 </html>

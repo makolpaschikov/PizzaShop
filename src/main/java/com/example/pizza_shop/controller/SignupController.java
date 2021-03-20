@@ -44,15 +44,11 @@ public class SignupController {
 
     @PostMapping
     public Object signup(User user, Map<String, Object> model) {
-        if (userService.getByUsername(user.getUsername()) != null) {
-            model.put("error_msg", "User with this username is already registered");
-            return new ModelAndView("signup", model);
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setActive(true);
-            user.setRoles(Collections.singleton(UserRole.USER));
-            userService.addUser(user);
-            return new RedirectView("/login");
-        }
+        String feedback = userService.addUser(user, Collections.singleton(UserRole.USER));
+        model.put("error_msg", feedback);
+        return feedback == null
+                ? new ModelAndView("signup", model)
+                : new RedirectView("/login");
+
     }
 }

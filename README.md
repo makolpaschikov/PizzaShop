@@ -7,6 +7,7 @@ Client-server application for a fictional pizzeria
    * javascript
 2. Server  
    * spring framework
+     * spring-core 
      * spring-boot
      * spring-session
      * spring-security

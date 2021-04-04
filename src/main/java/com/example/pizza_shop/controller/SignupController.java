@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/signup")
@@ -29,16 +31,14 @@ public class SignupController {
 
     @GetMapping
     public Object getPage() {
-/*        Set<UserRole> r = new HashSet<>();
+        Set<UserRole> r = new HashSet<>();
         r.add(UserRole.ADMIN);
         r.add(UserRole.USER);
         User u = new User();
         u.setUsername("admin");
-        u.setPassword(passwordEncoder.encode("nocheese"));
+        u.setPassword("nocheese");
         u.setEmail("busines-nocheesepizza@gmail.com");
-        u.setActive(true);
-        u.setRoles(r);
-        userService.addUser(u);*/
+        userService.addUser(u, r);
         return new ModelAndView("signup");
     }
 

@@ -19,13 +19,15 @@ public class ProductService {
             return false;
         }
         try {
+            // TODO: replace file name with product id
             String dirForTransfer = getClass()
                     .getClassLoader()
                     .getResource("static/images")
                     .getFile()
                     .replaceAll("build/resources/main", "src/main/resources")
-                    + File.separator + image.getOriginalFilename();
-            image.transferTo(new File(dirForTransfer));
+                    + File.separator + image.getOriginalFilename().replaceAll("Ngk3Z", "lala1");
+            File fileForTransfer = new File(dirForTransfer);
+            image.transferTo(fileForTransfer);
             return true;
         } catch (IOException e) {
             e.printStackTrace();

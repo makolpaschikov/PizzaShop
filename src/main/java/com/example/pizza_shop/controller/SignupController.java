@@ -21,16 +21,28 @@ import java.util.Set;
 @RequestMapping("/signup")
 public class SignupController {
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SignupController(UserService userService, PasswordEncoder passwordEncoder) {
+    public SignupController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
     public Object getPage() {
+        return new ModelAndView("signup");
+    }
+
+    @PostMapping
+    public Object signup(User user, Map<String, Object> model) {
+        if (userService.addUser(user, Collections.singleton(UserRole.USER))) {
+            return new RedirectView("/login");
+        } else {
+            model.put("error_msg", "User with this username is already registered");
+            return new ModelAndView("signup", model);
+        }
+    }
+
+    private void createAdmin() {
         Set<UserRole> r = new HashSet<>();
         r.add(UserRole.ADMIN);
         r.add(UserRole.USER);
@@ -39,16 +51,5 @@ public class SignupController {
         u.setPassword("nocheese");
         u.setEmail("busines-nocheesepizza@gmail.com");
         userService.addUser(u, r);
-        return new ModelAndView("signup");
-    }
-
-    @PostMapping
-    public Object signup(User user, Map<String, Object> model) {
-        String feedback = userService.addUser(user, Collections.singleton(UserRole.USER));
-        model.put("error_msg", feedback);
-        return feedback == null
-                ? new ModelAndView("signup", model)
-                : new RedirectView("/login");
-
     }
 }

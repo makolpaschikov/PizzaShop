@@ -12,6 +12,11 @@ public class ProductService {
     @Value("${image.directory}")
     private String imageDirPath;
 
+    /**
+     * Saves the file to directory 'resources/static/images'
+     * @param image - saved image
+     * @return - true if the image was saved, else false
+     */
     public boolean saveImage(MultipartFile image) {
         if (!image.isEmpty()) {
             createDirectory();
@@ -26,8 +31,7 @@ public class ProductService {
                     .getFile()
                     .replaceAll("build/resources/main", "src/main/resources")
                     + File.separator + image.getOriginalFilename().replaceAll("Ngk3Z", "lala1");
-            File fileForTransfer = new File(dirForTransfer);
-            image.transferTo(fileForTransfer);
+            image.transferTo(new File(dirForTransfer));
             return true;
         } catch (IOException e) {
             e.printStackTrace();

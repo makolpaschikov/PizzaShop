@@ -22,16 +22,28 @@ public class SessionService {
         this.sessionRegistry = sessionRegistry;
     }
 
+    /**
+     * Refreshes the user's session
+     * @param user - the user whose session is being updated
+     */
     public void updateSession(User user) {
         Authentication newAuth = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         RequestContextHolder.currentRequestAttributes().setAttribute("SPRING_SECURITY_CONTEXT", newAuth, RequestAttributes.SCOPE_SESSION);
     }
 
+    /**
+     * Closes the user session
+     * @param sessionID - session of the user
+     */
     public void closeSession(String sessionID) {
         sessionRegistry.getSessionInformation(sessionID).expireNow();
     }
 
+    /**
+     * Closes the user session
+     * @param user - object of the user
+     */
     public void closeSession(User user) {
         List<SessionInformation> sessions = sessionRegistry.getAllSessions(user, true);
         for (SessionInformation session : sessions) {

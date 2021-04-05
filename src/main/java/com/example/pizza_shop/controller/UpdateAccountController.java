@@ -38,13 +38,14 @@ public class UpdateAccountController {
             @AuthenticationPrincipal User user,
             @RequestParam String username,
             Map<String, Object> model
-            ) {
-        String feedback = userService.updateUsername(user, username);
-        sessionService.updateSession(user);
-        model.put("usrname_error", feedback);
-        return feedback == null
-                ? new RedirectView("/account_update")
-                : new ModelAndView("update_account", formInitialization(user, model));
+    ) {
+        if (userService.updateUsername(user, username)) {
+            sessionService.updateSession(user);
+            return new RedirectView("/account_update");
+        } else {
+            model.put("username_error", "New username is incorrect");
+            return new ModelAndView("update_account", formInitialization(user, model));
+        }
     }
 
     @PostMapping("/update_email")
@@ -53,12 +54,12 @@ public class UpdateAccountController {
             @RequestParam String email,
             Map<String, Object> model
     ) {
-        String feedback = userService.updateEmail(user, email);
-        sessionService.updateSession(user);
-        model.put("email_error", feedback);
-        return feedback == null
-                ? new RedirectView("/account_update")
-                : new ModelAndView("update_account", formInitialization(user, model));
+        if(userService.updateEmail(user, email)){
+            return new RedirectView("/account_update");
+        } else {
+            sessionService.updateSession(user);
+            return new ModelAndView("update_account", formInitialization(user, model));
+        }
     }
 
     @PostMapping("/update_password")
@@ -69,12 +70,13 @@ public class UpdateAccountController {
             @RequestParam String repeatedNewPassword,
             Map<String, Object> model
     ) {
-        String feedback = userService.updatePassword(user, oldPassword, newPassword, repeatedNewPassword);
-        sessionService.updateSession(user);
-        model.put("password_error", feedback);
-        return feedback == null
-                ? new RedirectView("/account_update")
-                : new ModelAndView("update_account", formInitialization(user, model));
+        if(userService.updatePassword(user, oldPassword, newPassword, repeatedNewPassword)){
+            sessionService.updateSession(user);
+            return new RedirectView("/account_update");
+        } else {
+            model.put("password_error", "The old password was entered incorrectly, or the new password is incorrect");
+            return new ModelAndView("update_account", formInitialization(user, model));
+        }
     }
 
     @PostMapping("/delete")

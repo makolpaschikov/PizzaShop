@@ -1,8 +1,10 @@
 package com.example.pizza_shop.controller;
 
-import com.example.pizza_shop.domain.User;
-import com.example.pizza_shop.domain.UserRole;
-import com.example.pizza_shop.service.ProductService;
+import com.example.pizza_shop.domain.product.Product;
+import com.example.pizza_shop.domain.product.ProductType;
+import com.example.pizza_shop.domain.user.User;
+import com.example.pizza_shop.domain.user.UserRole;
+import com.example.pizza_shop.service.product.ProductService;
 import com.example.pizza_shop.service.SessionService;
 import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin_panel")
@@ -41,9 +40,8 @@ public class AdminController {
         return new ModelAndView("admin_panel");
     }
 
-    //======================
-    // USERS
-    //======================
+    /*-------------- Users --------------*/
+
     @GetMapping("/users")
     public Object getUsers(Map<String, Object> model) {
         model.put("user_list", userService.getOnlyUsers());
@@ -66,18 +64,45 @@ public class AdminController {
         return new RedirectView("/admin_panel/users");
     }
 
-    //======================
-    // PRODUCTS
-    //======================
+    /*-------------- Products --------------*/
+
     @GetMapping("/add_product")
     public Object getProductForm() {
         return new ModelAndView("create_product");
     }
 
     @PostMapping("/add_product")
-    public Object addProduct(@RequestParam MultipartFile imgFile) {
-        productService.saveImage(imgFile);
+    public Object addProduct(
+            @RequestParam String name,
+            @RequestParam String cost,
+            @RequestParam String composition,
+            @RequestParam MultipartFile imgFile,
+            @RequestParam String type
+    ) {
+        Product product = new Product(name, Double.parseDouble(cost), composition, ProductType.valueOf(type));
+        productService.addProduct(product, imgFile);
         return new RedirectView("/admin_panel/add_product");
+    }
+
+    @GetMapping("/products")
+    public Object getProducts(Map<String, Object> model) {
+        model.put("pizza", productService.getProducts(ProductType.PIZZA));
+        model.put("dessert", productService.getProducts(ProductType.DESSERT));
+        model.put("snack", productService.getProducts(ProductType.SNACK));
+        model.put("drink", productService.getProducts(ProductType.DRINK));
+        return new ModelAndView("product_list", model);
+    }
+
+    @PostMapping("/delete_product")
+    public Object deleteProduct(@RequestParam Long id, @RequestParam String type) {
+        productService.deleteProduct(id, ProductType.valueOf(type));
+        return new RedirectView("/admin_panel/products");
+    }
+
+    @PostMapping("/delete_products")
+    public Object deleteProducts() {
+        productService.deleteAll();
+        return new RedirectView("/admin_panel/products");
     }
 
 }

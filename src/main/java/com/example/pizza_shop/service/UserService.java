@@ -1,7 +1,7 @@
 package com.example.pizza_shop.service;
 
-import com.example.pizza_shop.domain.User;
-import com.example.pizza_shop.domain.UserRole;
+import com.example.pizza_shop.domain.user.User;
+import com.example.pizza_shop.domain.user.UserRole;
 import com.example.pizza_shop.repository.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +18,8 @@ public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
 
+    /*-------------- User details --------------*/
+
     @Autowired
     public UserService(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
@@ -31,6 +33,8 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userDAO.findByUsername(username);
     }
+
+    /*-------------- Public --------------*/
 
     /**
      * Adds a user to the database
@@ -149,6 +153,8 @@ public class UserService implements UserDetailsService {
             return false;
         }
     }
+
+    /*-------------- Private --------------*/
 
     private boolean usernameIsAvailable(String username) {
         return userDAO.findByUsername(username) == null;

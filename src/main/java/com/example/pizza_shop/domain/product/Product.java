@@ -1,4 +1,4 @@
-package com.example.pizza_shop.domain;
+package com.example.pizza_shop.domain.product;
 
 import javax.persistence.*;
 
@@ -19,9 +19,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, Double cost, ProductType productType) {
+    public Product(String name, Double cost, String composition, ProductType productType) {
         this.name = name;
         this.cost = cost;
+        this.composition = composition;
         this.productType = productType;
     }
 

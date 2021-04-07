@@ -1,6 +1,6 @@
 package com.example.pizza_shop.controller;
 
-import com.example.pizza_shop.domain.User;
+import com.example.pizza_shop.domain.user.User;
 import com.example.pizza_shop.service.SessionService;
 import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

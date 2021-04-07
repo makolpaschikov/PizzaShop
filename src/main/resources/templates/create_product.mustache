@@ -8,7 +8,17 @@
     <h4>Add product</h4>
     <form method="post" enctype="multipart/form-data" action="/admin_panel/add_product">
         <label>
-            <input type="file" accept="image/jpeg,image/png" name="imgFile">
+            <input type="text" placeholder="Product name" name="name"><br>
+            <input type="text" placeholder="Product cost" name="cost"><br>
+            <textarea placeholder="Product composition" name="composition"></textarea><br>
+            <span>Image of product: <input type="file" accept="image/jpeg,image/png" name="imgFile"></span><br>
+            <select required name="type">
+              <option selected disabled>Product type</option>
+              <option value="pizza">Pizza</option>
+              <option value="snack">Snack</option>
+              <option value="dessert">Dessert</option>
+              <option value="drink">Drink</option>
+            </select><br>
         </label>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <button type="submit">Create</button>

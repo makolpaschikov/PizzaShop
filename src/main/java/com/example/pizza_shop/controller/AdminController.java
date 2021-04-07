@@ -1,8 +1,10 @@
 package com.example.pizza_shop.controller;
 
-import com.example.pizza_shop.domain.User;
-import com.example.pizza_shop.domain.UserRole;
-import com.example.pizza_shop.service.ProductService;
+import com.example.pizza_shop.domain.product.Product;
+import com.example.pizza_shop.domain.product.ProductType;
+import com.example.pizza_shop.domain.user.User;
+import com.example.pizza_shop.domain.user.UserRole;
+import com.example.pizza_shop.service.product.ProductService;
 import com.example.pizza_shop.service.SessionService;
 import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin_panel")
@@ -75,8 +74,15 @@ public class AdminController {
     }
 
     @PostMapping("/add_product")
-    public Object addProduct(@RequestParam MultipartFile imgFile) {
-        productService.saveImage(imgFile);
+    public Object addProduct(
+            @RequestParam String name,
+            @RequestParam String cost,
+            @RequestParam String composition,
+            @RequestParam MultipartFile imgFile,
+            @RequestParam String type
+    ) {
+        Product product = new Product(name, Double.parseDouble(cost), composition, ProductType.valueOf(type.toUpperCase(Locale.ROOT)));
+        productService.addProduct(product, imgFile);
         return new RedirectView("/admin_panel/add_product");
     }
 

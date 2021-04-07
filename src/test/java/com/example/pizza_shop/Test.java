@@ -5,7 +5,7 @@ public class Test {
     void pathToRes() {
         String path = getClass()
                 .getClassLoader()
-                .getResource("static/images")
+                .getResource("static/image")
                 .getFile();
         System.out.println(path);
     }

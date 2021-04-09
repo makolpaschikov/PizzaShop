@@ -9,7 +9,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productID;
     private String name;
-    private Double cost;
+    private Integer cost;
     private String composition;
 
     @CollectionTable(name = "product_type", joinColumns = @JoinColumn(name = "product_id"))
@@ -19,7 +19,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, Double cost, String composition, ProductType productType) {
+    public Product(String name, Integer cost, String composition, ProductType productType) {
         this.name = name;
         this.cost = cost;
         this.composition = composition;
@@ -42,11 +42,11 @@ public class Product {
         this.name = name;
     }
 
-    public Double getCost() {
+    public Integer getCost() {
         return cost;
     }
 
-    public void setCost(Double cost) {
+    public void setCost(Integer cost) {
         this.cost = cost;
     }
 

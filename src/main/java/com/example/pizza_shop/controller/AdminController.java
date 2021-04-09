@@ -79,7 +79,7 @@ public class AdminController {
             @RequestParam MultipartFile imgFile,
             @RequestParam String type
     ) {
-        Product product = new Product(name, Double.parseDouble(cost), composition, ProductType.valueOf(type));
+        Product product = new Product(name, Integer.parseInt(cost), composition, ProductType.valueOf(type));
         productService.addProduct(product, imgFile);
         return new RedirectView("/admin_panel/add_product");
     }

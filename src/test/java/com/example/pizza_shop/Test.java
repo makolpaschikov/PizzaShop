@@ -9,4 +9,10 @@ public class Test {
                 .getFile();
         System.out.println(path);
     }
+
+    @org.junit.jupiter.api.Test
+    void sysPath() {
+        String path = System.getProperty("user.dir");
+        System.out.println(path);
+    }
 }

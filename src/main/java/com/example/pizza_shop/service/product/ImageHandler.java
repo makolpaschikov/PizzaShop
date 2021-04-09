@@ -5,10 +5,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Locale;
 
 public class ImageHandler {
+
+    static private final String DIRECTORY = System.getProperty("user.dir");
 
     /*-------------- Public --------------*/
 
@@ -21,14 +22,10 @@ public class ImageHandler {
      */
     static public boolean saveImage(MultipartFile image, long productId, ProductType type) {
         try {
-            String dirForTransfer = getImageName(productId, type);
-            if (dirForTransfer == null) {
-                return false;
-            } else {
-                image.transferTo(new File(dirForTransfer));
-                return true;
-            }
-        } catch (IOException | NullPointerException e) {
+            String dirForTransfer = createImgName(productId, type);
+            image.transferTo(new File(dirForTransfer));
+            return true;
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -41,20 +38,22 @@ public class ImageHandler {
      * @return - true if the image was deleted, else false
      */
     static public boolean deleteImage(Long imageFilename, ProductType type) {
-        String imageDir = getImageName(imageFilename, type);
-        return imageDir != null && new File(imageDir).delete();
+        String imageDir = createImgName(imageFilename, type);
+        return new File(imageDir).delete();
     }
 
     /*-------------- Private --------------*/
 
-    static private String getImageName(Long name, ProductType type) {
-        URL url = ImageHandler.class
-                .getClassLoader()
-                .getResource("static/image/" + type.name().toLowerCase(Locale.ROOT));
-        return url == null
-                ? null
-                : url.getFile().replaceAll("build/resources/main", "src/main/resources")
-                + File.separator + name + ".jpeg";
+    static private String createImgName(Long name, ProductType type) {
+        String dir = DIRECTORY + File.separator + "data/images/" + type.name().toLowerCase(Locale.ROOT);
+        directoryValidating(new File(dir));
+        return dir + File.separator + name + ".jpeg";
+    }
+
+    static private void directoryValidating(File directory) {
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
     }
 
 }

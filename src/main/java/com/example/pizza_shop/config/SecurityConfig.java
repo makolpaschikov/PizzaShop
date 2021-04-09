@@ -22,6 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final SessionRegistry sessionRegistry;
+    private final String IMAGES_DIR = System.getProperty("user.dir");
+
 
     @Autowired
     public SecurityConfig(UserService userService, PasswordEncoder passwordEncoder, SessionRegistry sessionRegistry) {
@@ -40,8 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/img/**")
-                .addResourceLocations("classpath:/static/image/");
+                .addResourceHandler("/images/**")
+                .addResourceLocations("file:/"+ IMAGES_DIR + "/data/images/");
     }
 
     @Override

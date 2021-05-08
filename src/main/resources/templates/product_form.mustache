@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h4>Add product</h4>
+    <form method="post" enctype="multipart/form-data" action="/admin_panel/{{endpoint}}">
+        <label>
+            <input type="text" placeholder="Product name" value="{{#name}}{{name }}{{/name}}" name="name"><br>
+
+            <input type="text" placeholder="Product cost" value="{{#cost}}{{cost}}{{/cost}}" name="cost"><br>
+
+            <textarea placeholder="Product composition"  name="composition">{{#composition}}{{composition}}{{/composition}}</textarea><br>
+
+            <span>Image of product: <input type="file" accept="image/jpeg" name="imgFile"></span><br>
+
+            {{#onType}}
+                <select required name="selectedType">
+                    <option selected disabled>Product type</option>
+                    <option value="PIZZA">Pizza</option>
+                    <option value="SNACK">Snack</option>
+                    <option value="DESSERT">Dessert</option>
+                    <option value="DRINK">Drink</option>
+                </select><br>
+            {{/onType}}
+
+        </label>
+
+        <input type="hidden" name="id" value="{{#id}}{{id}}{{/id}}">
+        <input type="hidden" name="type" value="{{#type}}{{type}}{{/type}}">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">{{ buttonDestiny }}</button>
+    </form> <br>
+</body>
+</html>

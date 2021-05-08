@@ -67,8 +67,11 @@ public class AdminController {
     /*-------------- Products --------------*/
 
     @GetMapping("/add_product")
-    public Object getProductForm() {
-        return new ModelAndView("create_product");
+    public Object getProductForm(Map<String, Object> model) {
+        model.put("endpoint", "add_product");
+        model.put("buttonDestiny", "Create");
+        model.put("onType", true);
+        return new ModelAndView("product_form", model);
     }
 
     @PostMapping("/add_product")
@@ -77,11 +80,37 @@ public class AdminController {
             @RequestParam String cost,
             @RequestParam String composition,
             @RequestParam MultipartFile imgFile,
+            @RequestParam String selectedType
+    ) {
+        Product product = new Product(name, Integer.parseInt(cost), composition, ProductType.valueOf(selectedType));
+        productService.addProduct(product, imgFile);
+        return new RedirectView("/admin_panel");
+    }
+
+    @GetMapping("/edit_product")
+    public Object addProduct(@RequestParam Long productID, Map<String, Object> model) {
+        Product product = productService.getProduct(productID);
+        model.put("id", product.getProductID());
+        model.put("name", product.getName());
+        model.put("cost", product.getCost());
+        model.put("composition", product.getComposition());
+        model.put("type", product.getProductType());
+        model.put("endpoint", "edit_product");
+        model.put("buttonDestiny", "Update");
+        return new ModelAndView("product_form", model);
+    }
+
+    @PostMapping("/edit_product")
+    public Object editProduct(
+            @RequestParam Long id,
+            @RequestParam String name,
+            @RequestParam String cost,
+            @RequestParam String composition,
+            @RequestParam MultipartFile imgFile,
             @RequestParam String type
     ) {
-        Product product = new Product(name, Integer.parseInt(cost), composition, ProductType.valueOf(type));
-        productService.addProduct(product, imgFile);
-        return new RedirectView("/admin_panel/add_product");
+        productService.update(new Product(id, name, Integer.parseInt(cost), composition, ProductType.valueOf(type)), imgFile);
+        return new RedirectView("/admin_panel/products");
     }
 
     @GetMapping("/products")

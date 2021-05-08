@@ -21,6 +21,11 @@
         <p><i>{{composition}}</i></p>
         <p>{{cost}} rub</p>
         <img width="128" height="128" src="/images/pizza/{{productID}}.jpeg" alt="{{productID}}">
+        <form action="/admin_panel/edit_product" method="get">
+            <input type="hidden" value="{{productID}}" name="productID">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Edit</button>
+        </form>
         <form action="/admin_panel/delete_product" method="post">
             <input type="hidden" value="{{productID}}" name="id">
             <input type="hidden" value="PIZZA" name="type">
@@ -35,6 +40,11 @@
         <p><i>{{composition}}</i></p>
         <p>{{cost}} rub</p>
         <img width="128" height="128" src="/images/dessert/{{productID}}.jpeg" alt="{{productID}}">
+        <form action="/admin_panel/edit_product" method="get">
+            <input type="hidden" value="{{productID}}" name="productID">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Edit</button>
+        </form>
         <form action="/admin_panel/delete_product" method="post">
             <input type="hidden" value="{{productID}}" name="id">
             <input type="hidden" value="DESSERT" name="type">
@@ -49,6 +59,11 @@
         <p><i>{{composition}}</i></p>
         <p>{{cost}} rub</p>
         <img width="128" height="128" src="/images/snack/{{productID}}.jpeg" alt="{{productID}}">
+        <form action="/admin_panel/edit_product" method="get">
+            <input type="hidden" value="{{productID}}" name="productID">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Edit</button>
+        </form>
         <form action="/admin_panel/delete_product" method="post">
             <input type="hidden" value="{{productID}}" name="id">
             <input type="hidden" value="SNACK" name="type">
@@ -63,6 +78,11 @@
         <p><i>{{composition}}</i></p>
         <p>{{cost}} rub</p>
         <img width="128" height="128" src="/images/drink/{{productID}}.jpeg" alt="{{productID}}">
+        <form action="/admin_panel/edit_product" method="get">
+            <input type="hidden" value="{{productID}}" name="productID">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Edit</button>
+        </form>
         <form action="/admin_panel/delete_product" method="post">
             <input type="hidden" value="{{productID}}" name="id">
             <input type="hidden" value="DRINK" name="type">

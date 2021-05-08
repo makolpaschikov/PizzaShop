@@ -26,6 +26,14 @@ public class Product {
         this.productType = productType;
     }
 
+    public Product(Long id, String name, Integer cost, String composition, ProductType productType) {
+        this.productID = id;
+        this.name = name;
+        this.cost = cost;
+        this.composition = composition;
+        this.productType = productType;
+    }
+
     public Long getProductID() {
         return productID;
     }

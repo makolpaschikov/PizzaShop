@@ -2,7 +2,6 @@ package com.example.pizza_shop.config;
 
 import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final SessionRegistry sessionRegistry;
-    private final String IMAGES_DIR = System.getProperty("user.dir");
+    private final String PROJECT_DIR = System.getProperty("user.dir");
 
 
     @Autowired
@@ -43,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
                 .addResourceHandler("/images/**")
-                .addResourceLocations("file:/"+ IMAGES_DIR + "/data/images/");
+                .addResourceLocations("file:/"+ PROJECT_DIR + "/data/images/");
     }
 
     @Override

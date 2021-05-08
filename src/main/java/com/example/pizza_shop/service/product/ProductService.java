@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductService {
@@ -18,9 +19,13 @@ public class ProductService {
         this.productDAO = productDAO;
     }
 
-    public boolean addProduct(Product product, MultipartFile image) {
+    public void addProduct(Product product, MultipartFile image) {
         Product savedProduct = productDAO.save(product);
-        return ImageHandler.saveImage(image, savedProduct.getProductID(), savedProduct.getProductType());
+        ImageHandler.saveImage(image, savedProduct.getProductID(), savedProduct.getProductType());
+    }
+
+    public Product getProduct(Long id) {
+        return productDAO.findById(id).orElse(null);
     }
 
     public List<Product> getProducts() {
@@ -29,6 +34,14 @@ public class ProductService {
 
     public List<Product> getProducts(ProductType type) {
         return productDAO.getAllByProductType(type);
+    }
+
+    public void update(Product product, MultipartFile imgFile) {
+        productDAO.save(product);
+        if (!Objects.equals(imgFile.getOriginalFilename(), "")) {
+            ImageHandler.deleteImage(product.getProductID(), product.getProductType());
+            ImageHandler.saveImage(imgFile, product.getProductID(), product.getProductType());
+        }
     }
 
     public void deleteProduct(Long id, ProductType type) {

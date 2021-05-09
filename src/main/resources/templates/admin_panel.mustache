@@ -8,6 +8,10 @@
     <h4>Admin panel</h4>
     <p><a href="/account_update">Update acc</a></p>
     <p><a href="/admin_panel/users">List of users</a></p>
+    <form method="post" action="/user_logout">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">LogOut</button>
+    </form>
     <hr>
     <p><a href="/admin_panel/add_product">Add product</a></p>
     <p><a href="/admin_panel/products">List of products</a></p>

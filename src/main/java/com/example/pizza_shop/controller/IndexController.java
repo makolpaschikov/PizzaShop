@@ -1,6 +1,7 @@
 package com.example.pizza_shop.controller;
 
 import com.example.pizza_shop.service.SessionService;
+import com.example.pizza_shop.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

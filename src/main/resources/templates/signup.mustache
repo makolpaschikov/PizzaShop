@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Регистрация</title>
     <style>
         .error {
             color: red;
@@ -12,12 +12,12 @@
 <body>
     <form method="post" action="/signup">
         <label>
-            <input type="text" placeholder="Username" name="username"><br>
-            <input type="email" placeholder="Email" name="email"><br>
-            <input type="password" placeholder="Password" name="password"><br>
+            <input type="text" placeholder="Имя пользователя" name="username"><br>
+            <input type="email" placeholder="Почта" name="email"><br>
+            <input type="password" placeholder="Пароль" name="password"><br>
         </label>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <button type="submit">SignUp</button>
+        <button type="submit">Зарегистрироваться</button>
     </form>
     <div class="error">
         {{#error_msg}}

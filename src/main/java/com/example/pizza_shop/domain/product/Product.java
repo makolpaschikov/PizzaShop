@@ -73,4 +73,17 @@ public class Product {
     public void setComposition(String composition) {
         this.composition = composition;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        switch (productType) {
+            case PIZZA: builder.append("Пицца: "); break;
+            case DESSERT: builder.append("Десерт: "); break;
+            case DRINK: builder.append("Напиток: "); break;
+            case SNACK: builder.append("Закуска: "); break;
+        }
+        builder.append(name).append("\n");
+        return builder.toString();
+    }
 }

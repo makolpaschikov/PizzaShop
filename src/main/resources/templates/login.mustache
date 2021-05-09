@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Вход</title>
 </head>
 <body>
     <form method="post" action="/login">
         <label>
-            <input type="text" placeholder="Username" name="username">
-            <input type="password" placeholder="Password" name="password">
+            <input type="text" placeholder="Имя пользователя" name="username">
+            <input type="password" placeholder="Пароль" name="password">
         </label>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <button type="submit">LogIn</button>

@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Список пользователей</title>
 </head>
 <body>
-    <h4>Admins:</h4>
     <div>
         <form action="/admin_panel/add_admin" method="post">
             <label>
@@ -14,14 +13,14 @@
                 <input type="password" placeholder="Password" name="password"><br>
             </label>
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-            <button type="submit">Add admin</button><br>
+            <button type="submit">Добавить нового администратора</button><br>
             {{#error}}
                 {{error}}
             {{/error}}
         </form>
     </div>
     <hr>
-    <h4>Admins:</h4>
+    <h4>Администраторы:</h4>
     <div>
         {{#admin_list}}
             {{username}} <br>
@@ -29,13 +28,13 @@
                 <input type="hidden" name="userID" value="{{userID}}">
                 <input type="hidden" name="username" value="{{username}}">
                 <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-                <button type="submit">Delete</button>
+                <button type="submit">Удалить</button>
             </form>
             <hr><br>
         {{/admin_list}}
     </div>
 
-    <h4>Users:</h4>
+    <h4>Покупатели:</h4>
     <div>
         {{#user_list}}
             {{username}} <br>
@@ -43,7 +42,7 @@
                 <input type="hidden" name="userID" value="{{userID}}">
                 <input type="hidden" name="username" value="{{username}}">
                 <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-                <button type="submit">Delete</button>
+                <button type="submit">Удалить</button>
             </form>
             <hr><br>
         {{/user_list}}

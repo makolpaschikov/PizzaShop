@@ -2,28 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Обновление аккаунта</title>
 </head>
 <body>
-    <h4>Update account info</h4>
     <!--USERNAME-->
     <form method="post" action="/account_update/update_username">
         <label>
-            <input type="text" placeholder="Username" name="username" value="{{username}}">
+            <input type="text" placeholder="Имя пользователя" name="username" value="{{username}}">
         </label>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <button type="submit">Update</button>
+        <button type="submit">Обновить</button>
         {{#usrname_error}}
-            {{usrname_error}}
+            {{username_error}}
         {{/usrname_error}}
     </form> <br>
     <!--EMAIL-->
     <form method="post" action="/account_update/update_email">
         <label>
-            <input type="email" placeholder="Email" name="email" value="{{email}}">
+            <input type="email" placeholder="Почта" name="email" value="{{email}}">
         </label>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <button type="submit">Update</button>
+        <button type="submit">Обновить</button>
         {{#email_error}}
             {{email_error}}
         {{/email_error}}
@@ -31,12 +30,12 @@
     <!--PASSWORD-->
     <form method="post" action="/account_update/update_password">
         <label>
-            <input type="password" placeholder="Old password" name="oldPassword"><br>
-            <input type="password" placeholder="New password" name="newPassword"><br>
-            <input type="password" placeholder="c new password" name="repeatedNewPassword"><br>
+            <input type="password" placeholder="Сатрый пароль" name="oldPassword"><br>
+            <input type="password" placeholder="Новый пароль" name="newPassword"><br>
+            <input type="password" placeholder="Введите новый пароль еще раз" name="repeatedNewPassword"><br>
         </label>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <button type="submit">Update</button>
+        <button type="submit">Обновить</button>
         {{#password_error}}
             {{password_error}}
         {{/password_error}}
@@ -44,7 +43,7 @@
     <!--DELETE-->
     <form method="post" action="/account_update/delete">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <button type="submit">Delete account</button>
+        <button type="submit">Удалить аккаунт</button>
     </form>
 </body>
 </html>

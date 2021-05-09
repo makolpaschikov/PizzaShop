@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,6 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final SessionRegistry sessionRegistry;
+    private final String PROJECT_DIR = System.getProperty("user.dir");
+
 
     @Autowired
     public SecurityConfig(UserService userService, PasswordEncoder passwordEncoder, SessionRegistry sessionRegistry) {
@@ -30,7 +33,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
+        registry
+                .addViewController("/login")
+                .setViewName("login");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/images/**")
+                .addResourceLocations("file:/"+ PROJECT_DIR + "/data/images/");
     }
 
     @Override
@@ -58,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                     .logout().logoutSuccessUrl("/").permitAll()
                 .and()
                     .sessionManagement()
-                    .maximumSessions(1)
+                    .maximumSessions(3)
                     .expiredUrl("/")
                     .maxSessionsPreventsLogin(true)
                     .sessionRegistry(sessionRegistry);

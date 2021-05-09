@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма продукта</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" action="/admin_panel/{{endpoint}}">
+        <label>
+            <input type="text" placeholder="Название" value="{{#name}}{{name }}{{/name}}" name="name"><br>
+
+            <input type="text" placeholder="Цена" value="{{#cost}}{{cost}}{{/cost}}" name="cost"><br>
+
+            <textarea placeholder="Описание"  name="composition">{{#composition}}{{composition}}{{/composition}}</textarea><br>
+
+            <span>Изображенеи продукта: <input type="file" accept="image/jpeg" name="imgFile"></span><br>
+
+            {{#onType}}
+                <select required name="selectedType">
+                    <option selected disabled>Тип продукта</option>
+                    <option value="PIZZA">Пицца</option>
+                    <option value="SNACK">Закуска</option>
+                    <option value="DESSERT">Десерт</option>
+                    <option value="DRINK">Напиток</option>
+                </select><br>
+            {{/onType}}
+
+        </label>
+
+        <input type="hidden" name="id" value="{{#id}}{{id}}{{/id}}">
+        <input type="hidden" name="type" value="{{#type}}{{type}}{{/type}}">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">{{ buttonDestiny }}</button>
+    </form> <br>
+</body>
+</html>

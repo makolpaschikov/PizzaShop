@@ -1,7 +1,7 @@
 package com.example.pizza_shop.controller;
 
-import com.example.pizza_shop.domain.User;
-import com.example.pizza_shop.domain.UserRole;
+import com.example.pizza_shop.domain.user.User;
+import com.example.pizza_shop.domain.user.UserRole;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

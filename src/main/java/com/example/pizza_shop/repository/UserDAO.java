@@ -1,7 +1,7 @@
 package com.example.pizza_shop.repository;
 
-import com.example.pizza_shop.domain.User;
-import com.example.pizza_shop.domain.UserRole;
+import com.example.pizza_shop.domain.user.User;
+import com.example.pizza_shop.domain.user.UserRole;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

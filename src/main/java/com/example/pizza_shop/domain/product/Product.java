@@ -1,4 +1,4 @@
-package com.example.pizza_shop.domain;
+package com.example.pizza_shop.domain.product;
 
 import javax.persistence.*;
 
@@ -9,7 +9,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productID;
     private String name;
-    private Double cost;
+    private Integer cost;
     private String composition;
 
     @CollectionTable(name = "product_type", joinColumns = @JoinColumn(name = "product_id"))
@@ -19,9 +19,18 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, Double cost, ProductType productType) {
+    public Product(String name, Integer cost, String composition, ProductType productType) {
         this.name = name;
         this.cost = cost;
+        this.composition = composition;
+        this.productType = productType;
+    }
+
+    public Product(Long id, String name, Integer cost, String composition, ProductType productType) {
+        this.productID = id;
+        this.name = name;
+        this.cost = cost;
+        this.composition = composition;
         this.productType = productType;
     }
 
@@ -41,11 +50,11 @@ public class Product {
         this.name = name;
     }
 
-    public Double getCost() {
+    public Integer getCost() {
         return cost;
     }
 
-    public void setCost(Double cost) {
+    public void setCost(Integer cost) {
         this.cost = cost;
     }
 
@@ -63,5 +72,18 @@ public class Product {
 
     public void setComposition(String composition) {
         this.composition = composition;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        switch (productType) {
+            case PIZZA: builder.append("Пицца: "); break;
+            case DESSERT: builder.append("Десерт: "); break;
+            case DRINK: builder.append("Напиток: "); break;
+            case SNACK: builder.append("Закуска: "); break;
+        }
+        builder.append(name).append("\n");
+        return builder.toString();
     }
 }

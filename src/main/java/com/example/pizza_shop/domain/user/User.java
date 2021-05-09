@@ -1,4 +1,4 @@
-package com.example.pizza_shop.domain;
+package com.example.pizza_shop.domain.user;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;

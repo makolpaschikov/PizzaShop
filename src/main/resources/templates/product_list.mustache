@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список продуктов</title>
+    <style>
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <form action="/admin_panel/delete_products" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">Удалить все</button>
+    </form>
+    <hr>
+    <h2>Пицца</h2>
+    {{#pizza}}
+        <p><b>{{name}}</b></p>
+        <p><i>{{composition}}</i></p>
+        <p>{{cost}} руб</p>
+        <img width="128" height="128" src="/images/pizza/{{productID}}.jpeg" alt="{{productID}}">
+        <form action="/admin_panel/edit_product" method="get">
+            <input type="hidden" value="{{productID}}" name="productID">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Изменить</button>
+        </form>
+        <form action="/admin_panel/delete_product" method="post">
+            <input type="hidden" value="{{productID}}" name="id">
+            <input type="hidden" value="PIZZA" name="type">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Удалить</button>
+        </form>
+        <hr>
+    {{/pizza}}
+    <h2>Десерты</h2>
+    {{#dessert}}
+        <p><b>{{name}}</b></p>
+        <p><i>{{composition}}</i></p>
+        <p>{{cost}} руб</p>
+        <img width="128" height="128" src="/images/dessert/{{productID}}.jpeg" alt="{{productID}}">
+        <form action="/admin_panel/edit_product" method="get">
+            <input type="hidden" value="{{productID}}" name="productID">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Изменить</button>
+        </form>
+        <form action="/admin_panel/delete_product" method="post">
+            <input type="hidden" value="{{productID}}" name="id">
+            <input type="hidden" value="DESSERT" name="type">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Удалить</button>
+        </form>
+        <hr>
+    {{/dessert}}
+    <h2>Закуски</h2>
+    {{#snack}}
+        <p><b>{{name}}</b></p>
+        <p><i>{{composition}}</i></p>
+        <p>{{cost}} руб</p>
+        <img width="128" height="128" src="/images/snack/{{productID}}.jpeg" alt="{{productID}}">
+        <form action="/admin_panel/edit_product" method="get">
+            <input type="hidden" value="{{productID}}" name="productID">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Изменить</button>
+        </form>
+        <form action="/admin_panel/delete_product" method="post">
+            <input type="hidden" value="{{productID}}" name="id">
+            <input type="hidden" value="SNACK" name="type">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Удалить</button>
+        </form>
+        <hr>
+    {{/snack}}
+    <h2>Напитки</h2>
+    {{#drink}}
+        <p><b>{{name}}</b></p>
+        <p><i>{{composition}}</i></p>
+        <p>{{cost}} руб</p>
+        <img width="128" height="128" src="/images/drink/{{productID}}.jpeg" alt="{{productID}}">
+        <form action="/admin_panel/edit_product" method="get">
+            <input type="hidden" value="{{productID}}" name="productID">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Изменить</button>
+        </form>
+        <form action="/admin_panel/delete_product" method="post">
+            <input type="hidden" value="{{productID}}" name="id">
+            <input type="hidden" value="DRINK" name="type">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Удалить</button>
+        </form>
+        <hr>
+    {{/drink}}
+</body>
+</html>

@@ -1,7 +1,7 @@
 package com.example.pizza_shop.service;
 
-import com.example.pizza_shop.domain.User;
-import com.example.pizza_shop.domain.UserRole;
+import com.example.pizza_shop.domain.user.User;
+import com.example.pizza_shop.domain.user.UserRole;
 import com.example.pizza_shop.repository.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,10 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -21,117 +18,149 @@ public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
 
+    /*-------------- User details --------------*/
+
     @Autowired
     public UserService(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userDAO.findByUsername(username);
     }
 
-    //======================
-    // ADD
-    //======================
-    public String addUser(User user, Set<UserRole> roles) {
+    /*-------------- Public --------------*/
+
+    /**
+     * Adds a user to the database
+     * @param user - added user
+     * @param roles - set of the user roles
+     * @return - true if the user was added into database, else false
+     */
+    public boolean addUser(User user, Set<UserRole> roles) {
         if (userDAO.findByUsername(user.getUsername()) != null) {
-            return "User with this username is already registered";
+            return false;
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setActive(true);
             user.setRoles(roles);
             userDAO.save(user);
-            return null;
+            return true;
         }
     }
 
-    //======================
-    // GET
-    //======================
+    /**
+     * Returns a list of all users
+     * @return - list of users
+     */
     public List<User> getUsers() {
         return (List<User>) userDAO.findAll();
     }
 
+    /**
+     * Returns a list of users with role 'USER'
+     * @return - list of users
+     */
     public List<User> getOnlyUsers() {
         List<User> users = getUsers();
-        users.removeIf(user -> user.getRoles().contains(UserRole.ADMIN));
+        users.removeIf(u -> u.getRoles().contains(UserRole.ADMIN));
         return users;
     }
 
+    /**
+     * Returns a list of users with role 'ADMIN'
+     * @return - list of users
+     */
     public List<User> getOnlyAdmins() {
         return userDAO.findByRoles(UserRole.ADMIN);
     }
 
-    public User getByUsername(String username) {
-        return userDAO.findByUsername(username);
-    }
-
-    //======================
-    // DELETE
-    //======================
+    /**
+     * Removes the user from database by his object
+     * @param user - the user to be deleted
+     */
     public void deleteUser(User user) {
         userDAO.deleteById(user.getUserID());
     }
 
-    //======================
-    // UPDATE
-    //======================
-    public String updateUsername(User user, String username) {
+    /**
+     * Updates username
+     * @param user - user
+     * @param username - username of user
+     * @return - true if the new username is correct, else false
+     */
+    public boolean updateUsername(User user, String username) {
         if (!user.getUsername().equals(username)) {
             if (!usernameIsAvailable(username)) {
-                return "This username is taken!";
+                return false;
             } else {
                 user.setUsername(username);
                 userDAO.save(user);
-                return null;
+                return true;
             }
         } else {
-            return "The usernames are the same!";
+            return false;
         }
     }
 
-    public String updateEmail(User user, String email) {
+    /**
+     * Updates email
+     * @param user - user
+     * @param email - email of user
+     * @return - true if the new email is correct, else false
+     */
+    public boolean updateEmail(User user, String email) {
         if (!user.getEmail().equals(email)) {
             if (!emailIsAvailable(email)) {
-                return "This email is taken!";
+                return false;
             } else {
                 user.setEmail(email);
                 userDAO.save(user);
-                return null;
+                return true;
             }
         } else {
-            return "The emails are the same!";
+            return false;
         }
     }
 
-    public String updatePassword(User user, String oldPassword, String newPassword, String repeatedNewPassword) {
+    /**
+     * Updates password
+     * @param user - user
+     * @param oldPassword - old user password
+     * @param newPassword - new user password
+     * @param repeatedNewPassword - repeated user password (so that the new password is exactly correct)
+     * @return - true if the new password is correct, else false
+     */
+    public boolean updatePassword(User user, String oldPassword, String newPassword, String repeatedNewPassword) {
         if (passwordEncoder.matches(oldPassword, user.getPassword())) {
             if (!newPassword.equals(repeatedNewPassword)) {
-                return "Password mismatch!";
+                return false;
             } else {
                 if (passwordEncoder.matches(newPassword, user.getPassword())) {
-                    return "The old and new passwords are the same!";
+                    return false;
                 } else {
                     user.setPassword(passwordEncoder.encode(newPassword));
                     userDAO.save(user);
-                    return null;
+                    return true;
                 }
             }
         } else {
-            return "The previous password was entered incorrectly!";
+            return false;
         }
     }
 
-    //======================
-    // AVAILABLE
-    //======================
-    public boolean usernameIsAvailable(String username) {
+    /*-------------- Private --------------*/
+
+    private boolean usernameIsAvailable(String username) {
         return userDAO.findByUsername(username) == null;
     }
 
-    public boolean emailIsAvailable(String email) {
+    private boolean emailIsAvailable(String email) {
         return userDAO.findByEmail(email) == null;
     }
 

@@ -21,7 +21,8 @@
     {{#cost}}<b>Итого:</b> {{.}}{{/cost}}
     <br><br><br>
     {{#showBtn}}
-        <form>
+        <form action="shop/basket/order" method="post">
+            <input type="hidden" name="products" value="{{products}}">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <button type="submit">Заказать</button>
         </form>

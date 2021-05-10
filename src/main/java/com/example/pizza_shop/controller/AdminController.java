@@ -72,7 +72,7 @@ public class AdminController {
     @GetMapping("/add_product")
     public Object getProductForm(Map<String, Object> model) {
         model.put("endpoint", "add_product");
-        model.put("buttonDestiny", "Create");
+        model.put("buttonDestiny", "Добавить");
         model.put("onType", true);
         return new ModelAndView("product_form", model);
     }
@@ -99,7 +99,7 @@ public class AdminController {
         model.put("composition", product.getComposition());
         model.put("type", product.getProductType());
         model.put("endpoint", "edit_product");
-        model.put("buttonDestiny", "Update");
+        model.put("buttonDestiny", "Обновить");
         return new ModelAndView("product_form", model);
     }
 

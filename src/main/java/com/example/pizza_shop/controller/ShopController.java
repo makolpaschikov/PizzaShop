@@ -31,6 +31,8 @@ public class ShopController {
         this.basketService = basketService;
     }
 
+    /*-------------- Shop --------------*/
+
     @GetMapping
     public Object getPage(@AuthenticationPrincipal User user, Map<String, Object> model) {
         Basket usrBasket = basketService.getBasket(user.getUserID());
@@ -48,6 +50,19 @@ public class ShopController {
         }
         model.put("pizza", pizza);
         return new ModelAndView("shop");
+    }
+
+    /*-------------- Basket --------------*/
+
+    @GetMapping("/basket")
+    public Object getBasket(@AuthenticationPrincipal User user, Map<String, Object> model) {
+        Basket usrBasket = basketService.getBasket(user.getUserID());
+        if (usrBasket != null && usrBasket.getProducts().size() != 0) {
+            model.put("showBtn", true);
+            model.put("products", usrBasket.getProducts());
+            model.put("cost", usrBasket.getCost());
+        }
+        return new ModelAndView("basket", model);
     }
 
     @PostMapping("/to_basket")
@@ -100,15 +115,9 @@ public class ShopController {
         return new RedirectView("/shop");
     }
 
-    @GetMapping("/basket")
-    public Object getBasket(@AuthenticationPrincipal User user, Map<String, Object> model) {
-        Basket usrBasket = basketService.getBasket(user.getUserID());
-        if (usrBasket != null && usrBasket.getProducts().size() != 0) {
-            model.put("showBtn", true);
-            model.put("products", usrBasket.getProducts());
-            model.put("cost", usrBasket.getCost());
-        }
-        return new ModelAndView("basket", model);
+    @PostMapping("/basket/order")
+    public Object order(@AuthenticationPrincipal User user) {
+        return new RedirectView("/shop/basket");
     }
 
     @PostMapping("/basket/delete")

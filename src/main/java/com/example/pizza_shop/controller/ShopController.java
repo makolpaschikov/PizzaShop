@@ -5,6 +5,7 @@ import com.example.pizza_shop.domain.product.Product;
 import com.example.pizza_shop.domain.product.ProductType;
 import com.example.pizza_shop.domain.user.User;
 import com.example.pizza_shop.service.BasketService;
+import com.example.pizza_shop.service.MailService;
 import com.example.pizza_shop.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,11 +25,13 @@ import java.util.Map;
 public class ShopController {
     private final ProductService productService;
     private final BasketService basketService;
+    private final MailService mailService;
 
     @Autowired
-    public ShopController(ProductService productService, BasketService basketService) {
+    public ShopController(ProductService productService, BasketService basketService, MailService mailService) {
         this.productService = productService;
         this.basketService = basketService;
+        this.mailService = mailService;
     }
 
     /*-------------- Shop --------------*/
@@ -117,7 +120,10 @@ public class ShopController {
 
     @PostMapping("/basket/order")
     public Object order(@AuthenticationPrincipal User user) {
-        return new RedirectView("/shop/basket");
+        Basket basket = basketService.getBasket(user.getUserID());
+        mailService.sendOrder(user, basket);
+        basketService.deleteBasket(basket.getBasketID());
+        return new RedirectView("/shop");
     }
 
     @PostMapping("/basket/delete")

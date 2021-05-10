@@ -31,4 +31,8 @@ public class BasketService {
         usrBasket.getProducts().remove(product);
         updateBasket(usrBasket);
     }
+
+    public void deleteBasket(Long bktID) {
+        basketDAO.deleteById(bktID);
+    }
 }

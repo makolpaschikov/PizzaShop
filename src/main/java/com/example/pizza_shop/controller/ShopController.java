@@ -4,7 +4,6 @@ import com.example.pizza_shop.domain.Basket;
 import com.example.pizza_shop.domain.product.Product;
 import com.example.pizza_shop.domain.product.ProductType;
 import com.example.pizza_shop.domain.user.User;
-import com.example.pizza_shop.repository.BasketDAO;
 import com.example.pizza_shop.service.BasketService;
 import com.example.pizza_shop.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +57,7 @@ public class ShopController {
             @RequestParam String crustType,
             @RequestParam String diameter
     ) {
+        int cost = 0;
         Product product = productService.getProduct(productID);
         Basket basket = basketService.getBasket(user.getUserID());
         if (basket == null) basket = new Basket(user.getUserID());
@@ -73,16 +73,29 @@ public class ShopController {
         }
         switch (diameter) {
             case "tf":
-                productStr += "25 см.\n";
+                productStr += "25 см. ";
+                cost = Integer.parseInt(product.getCost());
+                productStr += "Стоимость: " + cost + " руб.\n" ;
                 break;
             case "th":
                 productStr += "30 см.\n";
+                cost = (int) (Integer.parseInt(product.getCost()) * 1.5);
+                productStr += "Стоимость: " + cost + " руб.\n" ;
                 break;
             case "thf":
                 productStr += "35 см.\n";
+                cost = Integer.parseInt(product.getCost()) * 2;
+                productStr += "Стоимость: " + cost + " руб.\n" ;
                 break;
         }
+        if (product.getProductType() != ProductType.PIZZA) {
+            productStr += "Стоимость: " + product.getCost() + " руб.\n";
+            cost = Integer.parseInt(product.getCost());
+        }
+
         basket.getProducts().add(productStr);
+        int basketCost = basket.getCost();
+        basket.setCost(basketCost + cost);
         basketService.addBasket(basket);
         return new RedirectView("/shop");
     }
@@ -93,6 +106,7 @@ public class ShopController {
         if (usrBasket != null && usrBasket.getProducts().size() != 0) {
             model.put("showBtn", true);
             model.put("products", usrBasket.getProducts());
+            model.put("cost", usrBasket.getCost());
         }
         return new ModelAndView("basket", model);
     }

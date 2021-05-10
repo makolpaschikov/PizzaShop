@@ -11,14 +11,16 @@ public class Basket {
     @Column(name = "basket_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long basketID;
-
     private Long usrID;
+    private int cost;
 
     public Basket() {
+        cost =0;
     }
 
     public Basket(Long usrID) {
         this.usrID = usrID;
+        cost = 0;
     }
 
     @ElementCollection
@@ -47,5 +49,13 @@ public class Basket {
 
     public void setProducts(List<String> products) {
         this.products = products;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 }

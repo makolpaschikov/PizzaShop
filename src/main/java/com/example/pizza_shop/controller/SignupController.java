@@ -4,6 +4,7 @@ import com.example.pizza_shop.domain.user.User;
 import com.example.pizza_shop.domain.user.UserRole;
 import com.example.pizza_shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +28,9 @@ public class SignupController {
     }
 
     @GetMapping
-    public Object getPage() {
-        return new ModelAndView("signup");
+    public Object getPage(@AuthenticationPrincipal User user) {
+        if (user == null) return new ModelAndView("signup");
+        else return new RedirectView("/router");
     }
 
     @PostMapping

@@ -18,6 +18,8 @@
     {{^products}}
         <p>Вы еще ничего не добавили в корзину.</p>
     {{/products}}
+    {{#cost}}<b>Итого:</b> {{.}}{{/cost}}
+    <br><br><br>
     {{#showBtn}}
         <form>
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">

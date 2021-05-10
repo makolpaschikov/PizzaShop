@@ -72,7 +72,7 @@ public class AdminController {
     @GetMapping("/add_product")
     public Object getProductForm(Map<String, Object> model) {
         model.put("endpoint", "add_product");
-        model.put("buttonDestiny", "Create");
+        model.put("buttonDestiny", "Добавить");
         model.put("onType", true);
         return new ModelAndView("product_form", model);
     }
@@ -85,7 +85,7 @@ public class AdminController {
             @RequestParam MultipartFile imgFile,
             @RequestParam String selectedType
     ) {
-        Product product = new Product(name, Integer.parseInt(cost), composition, ProductType.valueOf(selectedType));
+        Product product = new Product(name, cost, composition, ProductType.valueOf(selectedType));
         productService.addProduct(product, imgFile);
         return new RedirectView("/admin_panel");
     }
@@ -99,7 +99,7 @@ public class AdminController {
         model.put("composition", product.getComposition());
         model.put("type", product.getProductType());
         model.put("endpoint", "edit_product");
-        model.put("buttonDestiny", "Update");
+        model.put("buttonDestiny", "Обновить");
         return new ModelAndView("product_form", model);
     }
 
@@ -112,7 +112,7 @@ public class AdminController {
             @RequestParam MultipartFile imgFile,
             @RequestParam String type
     ) {
-        productService.update(new Product(id, name, Integer.parseInt(cost), composition, ProductType.valueOf(type)), imgFile);
+        productService.update(new Product(id, name, cost, composition, ProductType.valueOf(type)), imgFile);
         return new RedirectView("/admin_panel/products");
     }
 

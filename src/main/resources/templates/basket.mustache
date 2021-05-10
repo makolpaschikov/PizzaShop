@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазин</title>
+</head>
+<body>
+    <h2>Список товаров</h2>
+    {{#products}}
+        {{.}}
+        <form action="/shop/basket/delete" method="post">
+            <input type="hidden" value="{{.}}" name="product">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Удалить</button>
+        </form>
+        <hr>
+    {{/products}}
+    {{^products}}
+        <p>Вы еще ничего не добавили в корзину.</p>
+    {{/products}}
+    {{#cost}}<b>Итого:</b> {{.}}{{/cost}}
+    <br><br><br>
+    {{#showBtn}}
+        <form action="/shop/basket/order" method="post">
+            <input type="hidden" name="products" value="{{products}}">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            <button type="submit">Заказать</button>
+        </form>
+    {{/showBtn}}
+</body>
+</html>

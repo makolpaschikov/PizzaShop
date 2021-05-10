@@ -1,8 +1,10 @@
 package com.example.pizza_shop.controller;
 
+import com.example.pizza_shop.domain.user.User;
 import com.example.pizza_shop.service.SessionService;
 import com.example.pizza_shop.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +24,9 @@ public class IndexController {
     }
 
     @GetMapping
-    public Object getPage() {
-        return new ModelAndView("index");
+    public Object getPage(@AuthenticationPrincipal User user) {
+        if (user == null) return new ModelAndView("index");
+        else return new RedirectView("/router");
     }
 
     @PostMapping("/user_logout")

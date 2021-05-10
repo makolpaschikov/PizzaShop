@@ -9,7 +9,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productID;
     private String name;
-    private Integer cost;
+    private String cost;
     private String composition;
 
     @CollectionTable(name = "product_type", joinColumns = @JoinColumn(name = "product_id"))
@@ -19,14 +19,14 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, Integer cost, String composition, ProductType productType) {
+    public Product(String name, String cost, String composition, ProductType productType) {
         this.name = name;
         this.cost = cost;
         this.composition = composition;
         this.productType = productType;
     }
 
-    public Product(Long id, String name, Integer cost, String composition, ProductType productType) {
+    public Product(Long id, String name, String cost, String composition, ProductType productType) {
         this.productID = id;
         this.name = name;
         this.cost = cost;
@@ -50,11 +50,11 @@ public class Product {
         this.name = name;
     }
 
-    public Integer getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 
@@ -83,7 +83,7 @@ public class Product {
             case DRINK: builder.append("Напиток: "); break;
             case SNACK: builder.append("Закуска: "); break;
         }
-        builder.append(name).append("\n");
+        builder.append(name).append(".\n");
         return builder.toString();
     }
 }

@@ -85,7 +85,7 @@ public class AdminController {
             @RequestParam MultipartFile imgFile,
             @RequestParam String selectedType
     ) {
-        Product product = new Product(name, Integer.parseInt(cost), composition, ProductType.valueOf(selectedType));
+        Product product = new Product(name, cost, composition, ProductType.valueOf(selectedType));
         productService.addProduct(product, imgFile);
         return new RedirectView("/admin_panel");
     }
@@ -112,7 +112,7 @@ public class AdminController {
             @RequestParam MultipartFile imgFile,
             @RequestParam String type
     ) {
-        productService.update(new Product(id, name, Integer.parseInt(cost), composition, ProductType.valueOf(type)), imgFile);
+        productService.update(new Product(id, name, cost, composition, ProductType.valueOf(type)), imgFile);
         return new RedirectView("/admin_panel/products");
     }
 

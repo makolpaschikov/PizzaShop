@@ -1,18 +1,4 @@
 # Pizzeria "No-cheese pizza"
-Client-server application for a fictional pizzeria
+MVC web service for a pizzeria.
 
-1. Client: 
-   * html
-   * css
-   * javascript
-2. Server  
-   * spring framework
-     * spring-core 
-     * spring-boot
-     * spring-session
-     * spring-security
-     * spring-validation
-   * database
-     * postgresql
-     * jdbc
-     * hibernate
+In this work, an MVC web application for a pizzeria has been created. In this application, the user can view the list of pizzeria products and order them, and the administrator can add new products and update information about them. At the same time, authorization by roles is implemented, with specific access for each role. The development involved technologies such as Spring Framework, Spring Security, JDBC API, Hibernate, Tomcat Server, PostgreSQL (for database deployment), Gradle, Lombok, Mustache.

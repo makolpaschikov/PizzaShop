@@ -23,9 +23,9 @@ public class MailService {
      * Collects a message for the user and sends him a link to activate the account by email
      * @param user - recipient user
      */
-    public void sendOrder(User user, Basket basket) {
+    public void sendOrder(User user, Basket basket, String address) {
         StringBuilder message = new StringBuilder();
-        message.append("Заказ №").append(basket.getBasketID()).append("\n\n");
+        message.append("Заказ №").append(basket.getBasketID()).append(address).append("\n\n");
         for (String product : basket.getProducts()) message.append(product).append("\n");
         send(user.getEmail(), "Заказ №" + basket.getBasketID(), message.toString());
     }

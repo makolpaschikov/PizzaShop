@@ -119,9 +119,9 @@ public class ShopController {
     }
 
     @PostMapping("/basket/order")
-    public Object order(@AuthenticationPrincipal User user) {
+    public Object order(@AuthenticationPrincipal User user, @RequestParam String address) {
         Basket basket = basketService.getBasket(user.getUserID());
-        mailService.sendOrder(user, basket);
+        mailService.sendOrder(user, basket, address + "\n");
         basketService.deleteBasket(basket.getBasketID());
         return new RedirectView("/shop");
     }

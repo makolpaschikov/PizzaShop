@@ -34,7 +34,6 @@ public class Basket {
         this.basketID = basketID;
     }
 
-
     public Long getUsrID() {
         return usrID;
     }

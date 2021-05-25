@@ -22,6 +22,7 @@
     <br><br><br>
     {{#showBtn}}
         <form action="/shop/basket/order" method="post">
+            <input type="text" placeholder="Введите адресс" name="address">
             <input type="hidden" name="products" value="{{products}}">
             <input type="hidden" name="_csrf" value="{{_csrf.token}}">
             <button type="submit">Заказать</button>

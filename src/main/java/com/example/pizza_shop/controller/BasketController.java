@@ -4,7 +4,6 @@ import com.example.pizza_shop.domain.Basket;
 import com.example.pizza_shop.domain.user.User;
 import com.example.pizza_shop.service.BasketService;
 import com.example.pizza_shop.service.MailService;
-import com.example.pizza_shop.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

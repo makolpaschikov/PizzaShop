@@ -25,13 +25,11 @@ import java.util.Map;
 public class ShopController {
     private final ProductService productService;
     private final BasketService basketService;
-    private final MailService mailService;
 
     @Autowired
-    public ShopController(ProductService productService, BasketService basketService, MailService mailService) {
+    public ShopController(ProductService productService, BasketService basketService) {
         this.productService = productService;
         this.basketService = basketService;
-        this.mailService = mailService;
     }
 
     /*-------------- Shop --------------*/
@@ -53,19 +51,6 @@ public class ShopController {
         }
         model.put("pizza", pizza);
         return new ModelAndView("shop");
-    }
-
-    /*-------------- Basket --------------*/
-
-    @GetMapping("/basket")
-    public Object getBasket(@AuthenticationPrincipal User user, Map<String, Object> model) {
-        Basket usrBasket = basketService.getBasket(user.getUserID());
-        if (usrBasket != null && usrBasket.getProducts().size() != 0) {
-            model.put("showBtn", true);
-            model.put("products", usrBasket.getProducts());
-            model.put("cost", usrBasket.getCost());
-        }
-        return new ModelAndView("basket", model);
     }
 
     @PostMapping("/to_basket")
@@ -116,20 +101,6 @@ public class ShopController {
         basket.setCost(basketCost + cost);
         basketService.addBasket(basket);
         return new RedirectView("/shop");
-    }
-
-    @PostMapping("/basket/order")
-    public Object order(@AuthenticationPrincipal User user, @RequestParam String address) {
-        Basket basket = basketService.getBasket(user.getUserID());
-        mailService.sendOrder(user, basket, address + "\n");
-        basketService.deleteBasket(basket.getBasketID());
-        return new RedirectView("/shop");
-    }
-
-    @PostMapping("/basket/delete")
-    public Object deleteFromBasket(@AuthenticationPrincipal User user, @RequestParam String product) {
-        basketService.deleteProduct(user.getUserID(), product.replace("\r", ""));
-        return new RedirectView("/shop/basket");
     }
 
 }

@@ -14,6 +14,9 @@ public class Basket {
     private Long usrID;
     private int cost;
 
+    @ElementCollection
+    private List<String> products = new ArrayList<>();
+
     public Basket() {
         cost =0;
     }
@@ -22,9 +25,6 @@ public class Basket {
         this.usrID = usrID;
         cost = 0;
     }
-
-    @ElementCollection
-    private List<String> products = new ArrayList<>();
 
     public Long getBasketID() {
         return basketID;

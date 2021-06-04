@@ -9,6 +9,7 @@ import com.example.pizza_shop.service.UserService;
 import com.example.pizza_shop.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin_panel")
@@ -46,9 +44,11 @@ public class AdminController {
     /*-------------- Users --------------*/
 
     @GetMapping("/users")
-    public Object getUsers(Map<String, Object> model) {
+    public Object getUsers(@AuthenticationPrincipal User admin,  Map<String, Object> model) {
         model.put("user_list", userService.getOnlyUsers());
-        model.put("admin_list", userService.getOnlyAdmins());
+        List<User> admins = userService.getOnlyAdmins();
+        admins.remove(admin);
+        model.put("admin_list", admins.size() == 0 ? null : admins);
         return new ModelAndView("user_list", model);
     }
 

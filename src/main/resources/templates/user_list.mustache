@@ -5,6 +5,11 @@
     <title>Список пользователей</title>
 </head>
 <body>
+    <form method="get" action="/admin_panel">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">К панели администратора</button>
+    </form>
+    <br><br>
     <div>
         <form action="/admin_panel/add_admin" method="post">
             <label>

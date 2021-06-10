@@ -5,6 +5,11 @@
     <title>Форма продукта</title>
 </head>
 <body>
+    <form method="get" action="/admin_panel">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">К панели администратора</button>
+    </form>
+    <br><br>
     <form method="post" enctype="multipart/form-data" action="/admin_panel/{{endpoint}}">
         <label>
             <input type="text" placeholder="Название" value="{{#name}}{{name }}{{/name}}" name="name"><br>

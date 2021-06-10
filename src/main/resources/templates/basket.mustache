@@ -5,6 +5,10 @@
     <title>Магазин</title>
 </head>
 <body>
+    <form method="get" action="/shop">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button type="submit">К продуктам</button>
+    </form>
     <h2>Список товаров</h2>
     {{#products}}
         {{.}}
